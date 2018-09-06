@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-container">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Aplicación</th>
+                                        <th>Development</th>
+                                        <th>Preproduction</th>
+                                        <th>Production</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for v in dict_versions_applications_environments %}
+                                    <tr>
+                                        <td><a href="{% url 'application-details' v.application.id %}">{{ v.application }}</a></td>
+                                        <td>
+                                             {% for v_i in v.development %}
+                                                <a href="{% url 'application-versions-components' v_i.application_version.id %}"><i class="fa fa-cubes"></i> {{ v_i.application_version.name }}</a> <img src="{% static 'dashboard/img/left.png' %}" height="20"> versión instalada
+                                            {% empty %}
+                                            -
+                                            {% endfor %}
+                                            <p>
+                                            <table class="table table-hover">
+                                            {% for a_v in dict_versions_available_environments.development %}
+                                               <tr>
+                                                   <td><a href="{% url 'application-versions-components' a_v.id %}"><i class="fa fa-cubes"></i> {{ a_v.name }}</a></td>
+                                                   <td>
+                                                        <form action="{% url 'deploy-application' %}" method="post">{% csrf_token %}
+                                                            <input type="hidden" name="application" value={{ a_v.application.name }}>
+                                                            <input type="hidden" name="environment" value="des">
+                                                            <input type="hidden" name="version" value={{ a_v.name }}>
+                                                            <button type="submit"><img src="{% static 'dashboard/img/download.png' %}" height="20"></button>
+                                                        </form>
+                                                   </td>
+                                               </tr>
+                                            {% endfor %}
+                                            </table>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            {% for v_i in v.preproduction %}
+                                                <a href="{% url 'application-versions-components' v_i.application_version.id %}"><i class="fa fa-cubes"></i> {{ v_i.application_version.name }}</a> <img src="{% static 'dashboard/img/left.png' %}" height="20"> versión instalada
+                                            {% empty %}
+                                            -
+                                            {% endfor %}
+                                            <p>
+                                            <table class="table table-hover">
+                                            {% for a_v in dict_versions_available_environments.preproduction %}
+                                               <tr>
+                                                   <td><a href="{% url 'application-versions-components' a_v.id %}"><i class="fa fa-cubes"></i> {{ a_v.name }}</a></td>
+                                                   <td>
+                                                        <form action="{% url 'deploy-application' %}" method="post">{% csrf_token %}
+                                                            <input type="hidden" name="application" value={{ a_v.application.name }}>
+                                                            <input type="hidden" name="environment" value="pre">
+                                                            <input type="hidden" name="version" value={{ a_v.name }}>
+                                                            <button type="submit"><img src="{% static 'dashboard/img/download.png' %}" height="20"></button>
+                                                        </form>
+                                                   </td>
+                                               </tr>
+                                            {% endfor %}
+                                            </table>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            {% for v_i in v.production %}
+                                                <a href="{% url 'application-versions-components' v_i.application_version.id %}"><i class="fa fa-cubes"></i> {{ v_i.application_version.name }}</a> <img src="{% static 'dashboard/img/left.png' %}" height="20"> versión instalada
+                                            {% empty %}
+                                            -
+                                            {% endfor %}
+                                            <p>
+                                            <table class="table table-hover">
+                                            {% for a_v in dict_versions_available_environments.production %}
+                                               <tr>
+                                                   <td><a href="{% url 'application-versions-components' a_v.id %}"><i class="fa fa-cubes"></i> {{ a_v.name }}</a></td>
+                                                   <td>
+                                                        <form action="{% url 'deploy-application' %}" method="post">{% csrf_token %}
+                                                            <input type="hidden" name="application" value={{ a_v.application.name }}>
+                                                            <input type="hidden" name="environment" value="pro">
+                                                            <input type="hidden" name="version" value={{ a_v.name }}>
+                                                            <button type="submit"><img src="{% static 'dashboard/img/download.png' %}" height="20"></button>
+                                                        </form>
+                                                   </td>
+                                               </tr>
+                                            {% endfor %}
+                                            </table>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endblock %}

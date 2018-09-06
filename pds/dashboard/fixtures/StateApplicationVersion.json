@@ -1,0 +1,51 @@
+[
+  {
+    "model": "dashboard.StateApplicationVersion",
+    "pk": 1,
+    "fields": {
+      "name": "Inicial"
+    }
+  },
+  {
+    "model": "dashboard.StateApplicationVersion",
+    "pk": 2,
+    "fields": {
+      "name": "Build OK"
+    }
+  },
+  {
+    "model": "dashboard.StateApplicationVersion",
+    "pk": 3,
+    "fields": {
+      "name": "Desplegado en DEV"
+    }
+  },
+  {
+    "model": "dashboard.StateApplicationVersion",
+    "pk": 4,
+    "fields": {
+      "name": "Liberado a PRE"
+    }
+  },
+  {
+    "model": "dashboard.StateApplicationVersion",
+    "pk": 5,
+    "fields": {
+      "name": "Desplegado en PRE"
+    }
+  },
+  {
+    "model": "dashboard.StateApplicationVersion",
+    "pk": 6,
+    "fields": {
+      "name": "Liberado a PRO"
+    }
+  },
+  {
+    "model": "dashboard.StateApplicationVersion",
+    "pk": 7,
+    "fields": {
+      "name": "Desplegado en PRO"
+    }
+  }
+]

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Incluimos el historico para la versión del artefacto -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Histórico de cambios de la versión {{ application_version.name }}</h3>
+                        </div>
+
+                        <div class="table-container">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for h in application_version_history %}
+                                    <tr>
+                                        <td>{{ h.created | date:'Y-m-d H:i' }}</td>
+                                        <td>{% if h.state_artifact_version %}<i class="fa fa-line-chart" aria-hidden="true"></i> {{ h.state_artifact_version }}{% endif %}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <button onclick="goBack()">Volver</button>
+                            <script>
+                                function goBack() {
+                                    window.history.back();
+                                }
+                            </script>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-1">
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-line-chart" aria-hidden="true"></i> Estados de las versiones</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for s_a_v in state_artifact_versions %}
+                                        <tr>
+                                            <td>{{ s_a_v.name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {% endblock %}

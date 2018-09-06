@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load macros %}
+
+                {% block cuerpo %}
+
+                {% macro progressbar porcentaje desc %}
+                    {% if porcentaje <= 16 %}
+                      <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                      aria-valuenow="{{ porcentaje }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ porcentaje }}%">
+                        {{ porcentaje }}% {{ desc }}
+                      </div>
+                    {% elif porcentaje <= 44 %}
+                      <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+                      aria-valuenow="{{ porcentaje }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ porcentaje }}%">
+                        {{ porcentaje }}% {{ desc }}
+                      </div>
+                    {% elif porcentaje <= 72 %}
+                      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                      aria-valuenow="{{ porcentaje }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ porcentaje }}%">
+                        {{ porcentaje }}% {{ desc }}
+                      </div>
+                    {% else %}
+                      <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                      aria-valuenow="{{ porcentaje }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ porcentaje }}%">
+                        {{ porcentaje }}% {{ desc }}
+                      </div>
+                    {% endif %}
+                {% endmacro %}
+
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="table-container">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Versión</th>
+                                        <th>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width:16%">
+                                                    Build
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width:28%">
+                                                    Desarrollo
+                                                </div>
+                                                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width:28%">
+                                                    Preproducción
+                                                </div>
+                                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width:28%">
+                                                    Producción
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>Promocionar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for a_v in application_versions %}
+                                    <tr>
+                                        <td><a href="{% url 'application-versions-components' a_v.id %}"><i class="fa fa-cubes"></i> {{ a_v.name }}</a></td>
+                                        {% if a_v.state_application_version.id == 1 %}
+                                            <td>
+                                                {% use_macro progressbar 16 "Inicial" %}
+                                            </td>
+                                            <td>
+                                            </td>
+                                        {% elif a_v.state_application_version.id == 2 %}
+                                            <td>
+                                                {% use_macro progressbar 30 "Build Ok" %}
+                                            </td>
+                                            <td>
+                                                <form action="{% url 'deploy-application' %}" method="post">{% csrf_token %}
+                                                    <input type="hidden" name="application" value={{ application_name }}>
+                                                    <input type="hidden" name="environment" value="des">
+                                                    <input type="hidden" name="version" value={{ a_v.name }}>
+                                                    <button type="submit" class="btn btn-default btn-sm">Desplegar en DEV</button>
+                                                </form>
+                                            </td>
+                                        {% elif a_v.state_application_version.id == 3 %}
+                                            <td>
+                                                {% use_macro progressbar 44 "Desplegado en DEV" %}
+                                            </td>
+                                            <td>
+                                                <form action="{% url 'update-maturity-model' 4 %}" method="post">{% csrf_token %}
+                                                    <input type="hidden" name="application" value={{ application_name }}>
+                                                    <input type="hidden" name="version" value={{ a_v.name }}>
+                                                    <button type="submit" class="btn btn-default btn-sm">Liberar a PRE</button>
+                                                </form>
+                                            </td>
+                                        {% elif a_v.state_application_version.id == 4 %}
+                                            <td>
+                                                {% use_macro progressbar 58 "Liberado a PRE" %}
+                                            </td>
+                                            <td>
+                                                <form action="{% url 'deploy-application' %}" method="post">{% csrf_token %}
+                                                    <input type="hidden" name="application" value={{ application_name }}>
+                                                    <input type="hidden" name="environment" value="pre">
+                                                    <input type="hidden" name="version" value={{ a_v.name }}>
+                                                    <button type="submit" class="btn btn-default btn-sm">Desplegar en PRE</button>
+                                                </form>
+                                            </td>
+                                        {% elif a_v.state_application_version.id == 5 %}
+                                            <td>
+                                                {% use_macro progressbar 72 "Desplegado en PRE" %}
+                                            </td>
+                                            <td>
+                                                <form action="{% url 'update-maturity-model' 6 %}" method="post">{% csrf_token %}
+                                                    <input type="hidden" name="application" value={{ application_name }}>
+                                                    <input type="hidden" name="version" value={{ a_v.name }}>
+                                                    <button type="submit" class="btn btn-default btn-sm">Liberar a PRO</button>
+                                                </form>
+                                            </td>
+                                        {% elif a_v.state_application_version.id == 6 %}
+                                            <td>
+                                                {% use_macro progressbar 86 "Liberado a PRO" %}
+                                            </td>
+                                            <td>
+                                                <form action="{% url 'deploy-application' %}" method="post">{% csrf_token %}
+                                                    <input type="hidden" name="application" value={{ application_name }}>
+                                                    <input type="hidden" name="environment" value="pro">
+                                                    <input type="hidden" name="version" value={{ a_v.name }}>
+                                                    <button type="submit" class="btn btn-default btn-sm">Desplegar en PRO</button>
+                                                </form>
+                                            </td>
+                                        {% else %}
+                                            <td>
+                                                {% use_macro progressbar 100 "Desplegado en PRO" %}
+                                            </td>
+                                            <td>
+                                                Live!
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-line-chart" aria-hidden="true"></i> Pipeline</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for s_a_v in states_application_versions %}
+                                        <tr>
+                                            <td>{{ s_a_v.name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {% endblock %}
+
+
+
+
+

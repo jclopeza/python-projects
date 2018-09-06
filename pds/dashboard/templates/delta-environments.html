@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="table-container">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Aplicación</th>
+                                        <th>Entorno A</th>
+                                        <th>Entorno B</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for dict_value in dict_versions_applications_environments %}
+                                    <form action="" method="post">{% csrf_token %}
+                                        <input type="hidden" name="application" value="{{ dict_value.application.id }}" />
+                                        <tr>
+                                            <td>{{ dict_value.application.name }}</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% for dev in dict_value.development %}
+                                                                <input type="radio" name="id_environment_o" value="{{ dev.application_version.id }}">Desarrollo
+                                                            {% empty %}
+                                                                <input type="radio" name="id_environment_o" value="0" disabled>Desarrollo
+                                                            {% endfor %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% for pre in dict_value.preproduction %}
+                                                                <input type="radio" name="id_environment_o" value="{{ pre.application_version.id }}">Preproducción
+                                                            {% empty %}
+                                                                <input type="radio" name="id_environment_o" value="0" disabled>Preproducción
+                                                            {% endfor %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% for pro in dict_value.production %}
+                                                                <input type="radio" name="id_environment_o" value="{{ pro.application_version.id }}">Producción
+                                                            {% empty %}
+                                                                <input type="radio" name="id_environment_o" value="0" disabled>Producción
+                                                            {% endfor %}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% for dev in dict_value.development %}
+                                                                <input type="radio" name="id_environment_d" value="{{ dev.application_version.id }}">Desarrollo
+                                                            {% empty %}
+                                                                <input type="radio" name="id_environment_d" value="0" disabled>Desarrollo
+                                                            {% endfor %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% for pre in dict_value.preproduction %}
+                                                                <input type="radio" name="id_environment_d" value="{{ pre.application_version.id }}">Preproducción
+                                                            {% empty %}
+                                                                <input type="radio" name="id_environment_d" value="0" disabled>Preproducción
+                                                            {% endfor %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% for pro in dict_value.production %}
+                                                                <input type="radio" name="id_environment_d" value="{{ pro.application_version.id }}">Producción
+                                                            {% empty %}
+                                                                <input type="radio" name="id_environment_d" value="0" disabled>Producción
+                                                            {% endfor %}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type='submit' class="btn btn-default">Delta</button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {% endblock %}

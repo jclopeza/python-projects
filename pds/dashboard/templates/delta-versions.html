@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="table-container">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Aplicación</th>
+                                        <th>Versión A</th>
+                                        <th>Versión B</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for d_a_v in dict_applications_versions %}
+                                    {% if d_a_v.versions %}
+                                    <form action="" method="post">{% csrf_token %}
+                                        <input type="hidden" name="application" value="{{ d_a_v.application.id }}" />
+                                        <tr>
+                                            <td>{{ d_a_v.application.name }}</td>
+                                            {# ul con el distinto changelog de cada componente #}
+                                            <td>
+                                                <div class="form-group">
+                                                    <select class="form-control" name="v_a">
+                                                    {% for v_s in d_a_v.versions %}
+                                                        <option value="{{ v_s.id }}">{{ v_s.name }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <select class="form-control" name="v_b">
+                                                    {% for v_s in d_a_v.versions %}
+                                                        <option value="{{ v_s.id }}">{{ v_s.name }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type='submit' class="btn btn-default">Delta</button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                    {% endif  %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {% endblock %}

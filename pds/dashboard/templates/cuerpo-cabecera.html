@@ -1,0 +1,18 @@
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            {% if title %}
+                              {{ title|safe }}
+                            {% else %}
+                              PDS <small> Controla el software a desplegar en los distintos entornos</small>
+                            {% endif %}
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-caret-square-o-right" aria-hidden="true"></i> PDS &nbsp;&nbsp;&nbsp;{% for message in messages %}{{ message|safe }}{% endfor %}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->

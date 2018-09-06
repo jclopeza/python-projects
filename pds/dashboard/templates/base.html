@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'head.html' %}
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            {% include 'menu-superior-izquierdo.html' %}
+            {% include 'menu-superior-derecho.html' %}
+            {% include 'menu-lateral-izquierdo.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                {% include 'cuerpo-cabecera.html' %}
+                {% block cuerpo %}
+                {% endblock %}
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+{% include 'footer-scripts.html' %}
+
+</body>
+
+</html>

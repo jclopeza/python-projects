@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="table-container">
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>GroupId:</td>
+                                        <td>{{ artifact.group_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ArtifactId:</td>
+                                        <td>{{ artifact.artifact_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Repositorio Git:</td>
+                                        <td>{{ artifact.repository_git }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tecnología:</td>
+                                        <td>{{ artifact.technology_type }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de creación:</td>
+                                        <td>{{ artifact.created | date:'Y-m-d H:i' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Análisis Sonar:</td>
+                                        <td align="left">
+                                            {% if artifact.group_id != "vocento.ansible" %}
+                                            <a href="{{ url_sonar }}{{ artifact.group_id }}:{{ artifact.artifact_id }}" target="_blank">
+                                                <img src="{% static 'dashboard/img/sonarqube_logo.png' %}">
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-container">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Rama</th>
+                                        <th>Autor</th>
+                                        <th>ChangeLog</th>
+                                        <th>Estado</th>
+                                        <th>Fecha de creación</th>
+                                        <th>Build</th>
+                                        <th>Duración</th>
+                                        <th>Nexus</th>
+                                        <th>Histórico</th>
+                                        <th>Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for v in dict_versions_cl %}
+                                    <tr>
+                                        <td><a href="{{ v.bitbucket_url }}" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"></i> {{ v.version.name }}</a></td>
+                                        <td>{% if v.version.created_from_branch %}<i class="fa fa-code-fork" aria-hidden="true"></i> {{ v.version.created_from_branch }}{% endif %}</td>
+                                        <td>{% if v.version.email %}<i class="fa fa-user-o" aria-hidden="true"></i> {{ v.version.email }}{% endif %}</td>
+                                        {# ul con el distinto changelog de cada componente #}
+                                        <td>
+                                            {% for vcl in v.cl %}
+                                            <ul>
+                                                <li>{{ vcl.name }}</li>
+                                            </ul>
+                                            {% empty %}
+                                            -
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-line-chart" aria-hidden="true"></i> {{ v.version.state_artifact_version }}
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ v.version.created | date:'Y-m-d H:i'}}
+                                        </td>
+                                        <td>
+                                            {% if v.version.build_url %}
+                                                <a href="{{ v.version.build_url }}" target="_blank"><img src="{% static 'dashboard/img/jenkins.png' %}" height=30></a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if v.version.duration %}{{ v.version.duration }} secs.{% endif %}
+                                        </td>
+                                        <td>
+                                            {% if v.version.repository_url %}
+                                                <a href="{{ v.version.repository_url }}" target="_blank"><img src="{% static 'dashboard/img/nexus.png' %}" height=30></a>
+                                            {% endif %}
+                                        </td>
+                                        <td align="center"><a href="{% url 'artifact-version-details' v.version.id %}"><i class="fa fa-history fa-2x" aria-hidden="true"></i></a></td>
+                                        <td align="center">
+                                            <a href="{% url 'artifact-delete' v.version.id %}">
+                                                <img src="{% static 'dashboard/img/delete.gif' %}">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {% endblock %}

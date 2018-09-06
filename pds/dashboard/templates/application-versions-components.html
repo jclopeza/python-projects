@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="table-container">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Artefacto</th>
+                                        <th>Rama</th>
+                                        <th>Autor</th>
+                                        <th>Fecha de creación</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for a_v in artifact_version %}
+                                    <tr>
+                                        <td><a href="{{ a_v.bitbucket_url }}" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"></i> {{ a_v.name }}</a></td>
+                                        <td><a href="{% url 'artifact-details' a_v.artifact_id %}"><i class="fa fa-cube" aria-hidden="true"></i> {{ a_v.artifact }}</a></td>
+                                        <td>{% if a_v.created_from_branch %}<i class="fa fa-code-fork" aria-hidden="true"></i> {{ a_v.created_from_branch }}{% endif %}</td>
+                                        <td>{% if a_v.email %}<i class="fa fa-user-o" aria-hidden="true"></i> {{ a_v.email }}{% endif %}</td>
+                                        <td><i class="fa fa-clock-o" aria-hidden="true"></i> {{ a_v.created | date:'Y-m-d H:i' }}</td>
+                                        <td><i class="fa fa-line-chart" aria-hidden="true"></i> {{ a_v.state_artifact_version }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!-- Incluimos el historico para la versión de la aplicación seleccionada -->
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Histórico de cambios de la versión</h3>
+                        </div>
+
+                        <div class="table-container">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Autor</th>
+                                        <th>Acción</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for h in history_application_version %}
+                                    <tr>
+                                        <td><i class="fa fa-clock-o" aria-hidden="true"></i> {{ h.created | date:'Y-m-d H:i' }}</td>
+                                        {% if h.action %}
+                                            <td>{{ h.author.first_name }}</td>
+                                            <td>{{ h.action }}</td>
+                                        {% else %}
+                                            <td><i class="fa fa-cogs" aria-hidden="true"></i></td>
+                                            <td></td>
+                                        {% endif %}
+                                        <td>{% if h.state_application_version %}<i class="fa fa-line-chart" aria-hidden="true"></i> {{ h.state_application_version }}{% endif %}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-1">
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-line-chart" aria-hidden="true"></i> Estados de las versiones</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for s_a_v in state_application_versions %}
+                                        <tr>
+                                            <td>{{ s_a_v.name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                {% endblock %}

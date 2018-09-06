@@ -1,0 +1,38 @@
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li{% ifequal section "applications" %} class="active"{% endifequal %}>
+                        <a href="{% url 'applications' %}"><i class="fa fa-list-ul" aria-hidden="true"></i> Aplicaciones</a>
+                    </li>
+                {% if request.session.application_name %}
+                        <li>
+                            <a>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-cubes" aria-hidden="true"></i> {{ request.session.application_name }}</a>
+                        </li>
+                        <font color="#42B3E5"><hr width="150" align="center"/></font>
+                        <li{% ifequal section "components" %} class="active"{% endifequal %}>
+                            <a href="{% url 'application-details' request.session.application_id %}"><i class="fa fa-cube" aria-hidden="true"></i> Componentes</a>
+                        </li>
+                        <li{% ifequal section "versions-available" %} class="active"{% endifequal %}>
+                            <a href="{% url 'versions-available' request.session.application_id %}"><i class="fa fa-tags" aria-hidden="true"></i> Versiones creadas</a>
+                        </li>
+                        <li{% ifequal section "applications-environments" %} class="active"{% endifequal %}>
+                            <a href="{% url 'applications-environments' %}"><i class="fa fa-tachometer" aria-hidden="true"></i> Versiones instaladas</a>
+                        </li>
+                        <li{% ifequal section "release-dashboard" %} class="active"{% endifequal %}>
+                            <a href="{% url 'application-versions' request.session.application_id %}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Release Dashboard</a>
+                        </li>
+                        <li{% ifequal section "delta" %} class="active"{% endifequal %}>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-cubes"></i> Análisis delta <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="demo"{% ifequal section "delta" %}{% else %} class="collapse"{% endifequal %}>
+                                <li>
+                                    <a href="{% url 'delta-versions' %}">Entre Versiones</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'delta-environments' %}">Entre Entornos</a>
+                                </li>
+                            </ul>
+                        </li>
+                {% endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->

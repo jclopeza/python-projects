@@ -1,0 +1,21 @@
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                {% if user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ user.first_name }} {{ user.last_name }} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{% url 'change_password' %}"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/accounts/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/accounts/login"><i class="fa fa-smile-o"></i> Log In</a>
+                </li>
+                {% endif %}
+            </ul>

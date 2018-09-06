@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+
+                <div class="row">
+                    <div class="col-lg-12" align="center">
+                        <img src="{% static 'dashboard/img/build-automation-to-deployment.png' %}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p class="lead">PDS registra el software y los distintos componentes que se van creando de forma automatizada,
+                            los agrupa en distintos DARs <i>(Deployment Archives)</i> y alimenta la herramienta de despliegue
+                            sabiendo en todo momento y de forma exacta qué elementos integran una versión de un sistema de información.</p>
+                    </div>
+                </div>
+
+                {% endblock %}

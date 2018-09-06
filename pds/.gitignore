@@ -1,0 +1,5 @@
+.idea/
+*.pyc
+__pycache__/
+pds/local_settings.py
+

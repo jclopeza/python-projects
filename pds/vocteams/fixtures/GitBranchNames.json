@@ -1,0 +1,16 @@
+[
+  {
+    "model": "vocteams.BranchGit",
+    "pk": 1,
+    "fields": {
+      "name": "master"
+    }
+  },
+  {
+    "model": "vocteams.BranchGit",
+    "pk": 2,
+    "fields": {
+      "name": "develop"
+    }
+  }
+]

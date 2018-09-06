@@ -1,0 +1,33 @@
+{% load render_table from django_tables2 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time To First Byte</title>
+    <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                URL:
+            </td>
+            <td>
+                <form action="" method="get">
+                    <input type="text" name="url">
+                    <input type="submit" value="Calcular TTFB">
+                </form>
+            </td>
+            {% if empty %}
+            <td>
+                <font color="red">Introduce una URL.</font>
+            </td>
+            {% endif %}
+        </tr>
+    </table>
+    <P>
+    {% render_table table %}
+</body>
+</html>

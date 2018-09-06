@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+                {% block cuerpo %}
+                <div class="row">
+                    <div class="col-lg-10">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Componentes de la aplicación</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-10">
+                        <div class="table-container">
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>GroupId</th>
+                                        <th>ArtifactId</th>
+                                        <th>Repositorio Git</th>
+                                        <th>Crear proyecto de despliegue</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for a in artifacts %}
+                                    <tr>
+                                        <td><i class="fa fa-code" aria-hidden="true"></i> {{ a.group_id }}</td>
+                                        <td><a href="{% url 'artifact-details' a.id %}"><i class="fa fa-cube" aria-hidden="true"></i> {{ a.artifact_id }}</a></td>
+                                        <td><i class="fa fa-bitbucket" aria-hidden="true"></i> {{ a.repository_git }}</td>
+                                        <td>
+                                          <form action="{% url 'create-infrastructure-project' %}" method="post">{% csrf_token %}
+                                            <input type="hidden" name="component_id" value={{ a.id }}>
+                                            <input type="image" src="/static/dashboard/img/ansible_logo.png" height="20">
+                                          </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                {% endblock %}
