@@ -4,7 +4,7 @@ astor==0.5
 certifi==2017.7.27.1
 chardet==3.0.4
 clint==0.5.1
-Django==1.11.5
+Django==2.2.24
 django-macros==0.4.0
 django-tables2==1.11.0
 hy==0.13.0
